@@ -16,4 +16,4 @@ This requires:
 * Openbox (for wslgbox)
 
 To run, do ./wslgbox (or ./wslgbox-kde) NOT as root as wayland will not work as root.
-KDE (or openbox) will start up
+KDE (or openbox) will start up.
