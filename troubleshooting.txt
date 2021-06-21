@@ -3,7 +3,7 @@ wslgBox - Troubleshooting
 
 Can't run the file, because you don't have permissions?
 
-Do 'chmod ug=rx wslgbox' and replace wslgbox with whatever version you're using
+Do 'chmod ug=rx wslgbox' and replace wslgbox with whatever version you're using. 
 
 Xwayland is not installed!
 
@@ -11,4 +11,4 @@ Install Xwayland on your distribution (example: sudo apt install xwayland)
 
 Get a dbus error, and a black screen?
 
-Install dbus-x11 (I've heard of other people using dbus-1-dbg), and run dbus-launch as root. 
+Install dbus-x11 (I've heard of other people using dbus-1-dbg), and run dbus-launch as root. If this happens, you will have to run this on every WSL boot, or every time you get this error.
