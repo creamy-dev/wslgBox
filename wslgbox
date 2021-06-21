@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+clear
+echo "               _       ____            "
+echo "              | |     |  _ \           "
+echo " __      _____| | __ _| |_) | _____  __ "
+echo " \ \ /\ / / __| |/ _. |  _ < / _ \ \/ / "
+echo "  \ V  V /\__ \ | (_| | |_) | (_) >  < "
+echo "   \_/\_/ |___/_|\__. |____/ \___/_/\_\ "
+echo "                  __/ |               " 
+echo "                 |___/                "
+echo "----------------"
+echo "wslgBox by creamy#1337"
+echo "openbox X11-like on wslg"
+echo "---------------"
+read -p "DISCLAIMER: This WILL modify wslg services that /might/ be restored later. This will also wipe /tmp. Are you SURE? Press any key to continue."
+echo "Preparing..."
+sudo systemctl stop wslg-xwayland.service
+sudo systemctl stop wslg-xwayland.socket
+sudo rm -rf /tmp/
+sudo mkdir /tmp
+sudo chown -R $USER:$USER /tmp
+killall Xwayland
+killall openbox
+echo "Starting..."
+Xwayland &
+sleep 0.5s
+GDK_BACKEND=x11 openbox &
+sleep 0.5s
+cat ~/.config/openbox/autostart | bash
+while :; do
+   sleep 2s
+done
