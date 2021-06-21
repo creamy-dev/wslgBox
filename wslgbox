@@ -17,9 +17,7 @@ read -p "DISCLAIMER: This WILL modify wslg services that /might/ be restored lat
 echo "Preparing..."
 sudo systemctl stop wslg-xwayland.service
 sudo systemctl stop wslg-xwayland.socket
-sudo rm -rf /tmp/
-sudo mkdir /tmp
-sudo chown -R $USER:$USER /tmp
+sudo rm -rf /tmp/*
 killall Xwayland
 killall openbox
 echo "Starting..."
