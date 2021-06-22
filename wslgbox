@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-bold=$(tput bold) #im lazy
-normal=$(tput sgr0) #im lazy pt2
+VERSION=1.1.0
+
+bold=$(tput bold)
+normal=$(tput sgr0)
 
 mkdir $HOME/.config/wslgbox 2> /dev/null
 
@@ -12,10 +14,10 @@ echo " __      _____| | __ _| |_) | _____  __  "
 echo " \ \ /\ / / __| |/ _. |  _ < / _ \ \/ /  "
 echo "  \ V  V /\__ \ | (_| | |_) | (_) >  <   "
 echo "   \_/\_/ |___/_|\__. |____/ \___/_/\_\  "
-echo "                  __/ |                  " 
-echo "                 |___/                   "
+echo "                  __/ |                  "
+echo "                 |___/               v$VERSION    " # i'm really sorry this isnt center :<
 echo "----------------"
-echo "wslgBox by creamy#1337"
+echo "wslgBox v$VERSION by creamy#1337"
 echo "openbox X11-like on wslg"
 echo "----------------"
 
@@ -58,7 +60,7 @@ start_kde() {
     sleep 0.5s
     startplasma-x11 &
     sleep 0.5s
-    kwin --replace 
+    kwin --replace
 }
 
 echo "Preparing..."
