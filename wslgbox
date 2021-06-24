@@ -91,7 +91,6 @@ else
   sleep 1s
   bash wslgbox
 fi
-exit
 
 if test -f "$HOME/.config/wslgbox/agreement"; then echo 1 > /dev/null; else
   echo "Welcome, to wslgBox! (licensed under GPL-3.0)"
