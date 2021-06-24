@@ -7,9 +7,27 @@ help() {
   echo "--help, -h: shows this help screen"
   echo "--install, -i: installs kde for you"
   echo "--troubleshooting, -t: shows troubleshooting steps"
+  echo "--update, -u: updates wslgbox"
+  exit
 }
 
-VERSION=1.1.2
+update() {
+  echo "Checking latest version..."
+  GIT_VERSION="$(curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/version 2> /dev/null)"
+  if [[ "$GIT_VERSION" == "$VERSION" ]]; then
+    echo "You are already up to date."
+  else
+    read -p "The latest release is $GIT_VERSION. Do you want to update? "
+    curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/wslgbox > wslgbox
+    chmod +x wslgbox
+    echo "Updated!"
+    sleep 1s
+    bash wslgbox
+  fi
+  exit
+}
+
+VERSION=1.1.0
 
 bold=$(tput bold)
 normal=$(tput sgr0)
@@ -26,7 +44,7 @@ echo "   \_/\_/ |___/_|\__. |____/ \___/_/\_\  "
 echo "                  __/ |                  "
 echo "                 |___/               v$VERSION    " # i'm really sorry this isnt center :<
 echo "----------------"
-echo "wslgBox v$VERSION by creamy#1337"
+echo "wslgBox v$VERSION by @creamy-dev"
 echo "de's on wslg"
 echo "----------------"
 
@@ -49,10 +67,31 @@ if [[ "$@" == *"-t"* ]]; then
   exit
 fi
 
+if [[ "$@" == *"--update"* ]]; then
+  update
+fi
+
+if [[ "$@" == *"-u"* ]]; then
+  update
+fi
+
 if [[ "$@" == *"--troubleshooting"* ]]; then
   curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/troubleshooting.txt
   exit
 fi
+
+GIT_VERSION="$(curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/version 2> /dev/null)"
+if [[ "$GIT_VERSION" == "$VERSION" ]]; then
+  echo 1 > /dev/null
+else
+  read -p "The latest release is $GIT_VERSION. Do you want to update? "
+  curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/wslgbox > wslgbox
+  chmod +x wslgbox
+  echo "Updated!"
+  sleep 1s
+  bash wslgbox
+fi
+exit
 
 if test -f "$HOME/.config/wslgbox/agreement"; then echo 1 > /dev/null; else
   echo "Welcome, to wslgBox! (licensed under GPL-3.0)"
@@ -70,7 +109,7 @@ dashdashinstall() {
   if [[ "$NAME" == '"Debian GNU/Linux"' ]]; then
     echo "IMPORTANT:"
     echo "We WILL need to wipe ~/.config,"
-    echo "And we WILL need to migrate to debian testing due to annoying KDE bugs. (${bold}THIS WILL WIPE /etc/apt/sources.list${normal})"
+    echo "And we WILL need to migrate to debian testing due to KDE gui bugs, in the debian stable version. (${bold}THIS WILL WIPE /etc/apt/sources.list${normal})"
     echo "You should back up all your important files."
     read -p "Press any key if you agree to these modifications to your computer, or CTRL+C to exit. "
     echo "deb http://deb.debian.org/debian testing main" | sudo tee /etc/apt/sources.list 2> /dev/null
