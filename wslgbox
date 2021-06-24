@@ -4,9 +4,9 @@ help() {
   echo "Welcome to wslgBox!"
   echo "wslgBox is licensed under GPL-3.0."
   echo "--Help--"
-  echo "./wslgbox: starts kde on wslg by default"
   echo "--help, -h: shows this help screen"
   echo "--install, -i: installs kde for you"
+  echo "--troubleshooting, -t: shows troubleshooting steps"
 }
 
 VERSION=1.1.2
@@ -44,15 +44,25 @@ if [[ "$@" == *"-h"* ]]; then
   exit
 fi
 
+if [[ "$@" == *"-t"* ]]; then
+  curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/troubleshooting.txt
+  exit
+fi
+
+if [[ "$@" == *"--troubleshooting"* ]]; then
+  curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/troubleshooting.txt
+  exit
+fi
+
 if test -f "$HOME/.config/wslgbox/agreement"; then echo 1 > /dev/null; else
-    echo "Welcome, to wslgBox! (licensed under GPL-3.0)"
-    echo "This software is ${bold}AS-IS${normal}, you may use this at your own risk. I am not responsible if I break anything."
-    echo "This WILL modify wslg services that may be restored later, on next boot. This will also wipe /tmp, on each script run."
-    echo "I do not guarantee anything will be restored, or that anything will work."
-    read -p "Press any key if you agree to these terms. "
-    echo 1 > $HOME/.config/wslgbox/agreement
-    echo 1 > $HOME/.config/wslgbox/de
-    echo "----------------"
+  echo "Welcome, to wslgBox! (licensed under GPL-3.0)"
+  echo "This software is ${bold}AS-IS${normal}, you may use this at your own risk. I am not responsible if I break anything."
+  echo "This WILL modify wslg services that may be restored later, on next boot. This will also wipe /tmp, on each script run."
+  echo "I do not guarantee anything will be restored, or that anything will work."
+  read -p "Press any key if you agree to these terms. "
+  echo 1 > $HOME/.config/wslgbox/agreement
+  echo 1 > $HOME/.config/wslgbox/de
+  echo "----------------"
 fi
 
 dashdashinstall() {
@@ -81,30 +91,30 @@ dashdashinstall() {
 }
 
 prepare() {
-    sudo systemctl stop wslg-xwayland.service
-    sudo systemctl stop wslg-xwayland.socket
-    sudo rm -rf /tmp/*
-    killall Xwayland
-    killall openbox
+  sudo systemctl stop wslg-xwayland.service
+  sudo systemctl stop wslg-xwayland.socket
+  sudo rm -rf /tmp/*
+  killall Xwayland
+  killall openbox
 }
 
 start_openbox() {
-    Xwayland &
-    sleep 0.5s
-    GDK_BACKEND=x11 openbox &
-    sleep 0.5s
-    cat ~/.config/openbox/autostart | bash
-    while :; do
-        sleep 2s
-    done
+  Xwayland &
+  sleep 0.5s
+  GDK_BACKEND=x11 openbox &
+  sleep 0.5s
+  cat ~/.config/openbox/autostart | bash
+  while :; do
+    sleep 2s
+  done
 }
 
 start_kde() {
-    Xwayland &
-    sleep 0.5s
-    startplasma-x11 &
-    sleep 0.5s
-    kwin --replace
+  Xwayland &
+  sleep 0.5s
+  startplasma-x11 &
+  sleep 0.5s
+  kwin --replace
 }
 
 if [[ "$@" == *"--install"* ]]; then
