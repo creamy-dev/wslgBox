@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 
-VERSION=1.1.0
+help() {
+  echo "Welcome to wslgBox!"
+  echo "wslgBox is licensed under GPL-3.0."
+  echo "--Help--"
+  echo "./wslgbox: starts kde on wslg by default"
+  echo "--help, -h: shows this help screen"
+  echo "--install, -i: installs kde for you"
+}
+
+VERSION=1.1.2
 
 bold=$(tput bold)
 normal=$(tput sgr0)
@@ -18,15 +27,25 @@ echo "                  __/ |                  "
 echo "                 |___/               v$VERSION    " # i'm really sorry this isnt center :<
 echo "----------------"
 echo "wslgBox v$VERSION by creamy#1337"
-echo "openbox X11-like on wslg"
+echo "de's on wslg"
 echo "----------------"
 
 ## Reference
 # 0 = openbox
 # 1 = kde
 
+if [[ "$@" == *"--help"* ]]; then
+  help
+  exit
+fi
+
+if [[ "$@" == *"-h"* ]]; then
+  help
+  exit
+fi
+
 if test -f "$HOME/.config/wslgbox/agreement"; then echo 1 > /dev/null; else
-    echo "Welcome, to wslgBox!"
+    echo "Welcome, to wslgBox! (licensed under GPL-3.0)"
     echo "This software is ${bold}AS-IS${normal}, you may use this at your own risk. I am not responsible if I break anything."
     echo "This WILL modify wslg services that may be restored later, on next boot. This will also wipe /tmp, on each script run."
     echo "I do not guarantee anything will be restored, or that anything will work."
@@ -35,6 +54,31 @@ if test -f "$HOME/.config/wslgbox/agreement"; then echo 1 > /dev/null; else
     echo 1 > $HOME/.config/wslgbox/de
     echo "----------------"
 fi
+
+dashdashinstall() {
+  NAME="$(awk -F= '$1=="NAME" { print $2 ;}' /etc/os-release)"
+  if [[ "$NAME" == '"Debian GNU/Linux"' ]]; then
+    echo "IMPORTANT:"
+    echo "We WILL need to wipe ~/.config,"
+    echo "And we WILL need to migrate to debian testing due to annoying KDE bugs. (${bold}THIS WILL WIPE /etc/apt/sources.list${normal})"
+    echo "You should back up all your important files."
+    read -p "Press any key if you agree to these modifications to your computer, or CTRL+C to exit. "
+    echo "deb http://deb.debian.org/debian testing main" | sudo tee /etc/apt/sources.list 2> /dev/null
+    echo "deb http://deb.debian.org/debian testing-updates main" | sudo tee -a /etc/apt/sources.list 2> /dev/null
+    echo "deb http://security.debian.org/debian-security testing-security main" | sudo tee -a /etc/apt/sources.list 2> /dev/null
+    echo "deb http://ftp.debian.org/debian testing-backports main" | sudo tee -a /etc/apt/sources.list 2> /dev/null
+    sudo apt update
+    sudo apt upgrade -y
+    sudo apt autoremove -y
+    sudo apt install kde-plasma-desktop xwayland kwin-x11 dbus-x11 -y
+    echo "Done!"
+  elif [[ "$NAME" == '"Ubuntu"' ]]; then
+    sudo apt update 
+    sudo apt install kubuntu-desktop xwayland kwin-x11 dbus-x11 -y
+    echo "Done!"
+  else echo "Unsupported distrobution."; fi
+  exit
+}
 
 prepare() {
     sudo systemctl stop wslg-xwayland.service
@@ -62,6 +106,14 @@ start_kde() {
     sleep 0.5s
     kwin --replace
 }
+
+if [[ "$@" == *"--install"* ]]; then
+  dashdashinstall
+fi
+
+if [[ "$@" == *"-i"* ]]; then
+  dashdashinstall
+fi
 
 echo "Preparing..."
 prepare
