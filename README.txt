@@ -14,6 +14,7 @@ This requires:
 * wslg installed AND working
 * KDE (for wslgbox-kde)
 * Openbox (for wslgbox)
+* curl (for autoupdate, and troubleshooting)
 
 Installation:
 1. Git clone this repository.
