@@ -27,7 +27,7 @@ update() {
   exit
 }
 
-VERSION=1.1.0
+VERSION=1.1.2
 
 bold=$(tput bold)
 normal=$(tput sgr0)
