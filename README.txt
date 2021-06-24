@@ -12,8 +12,8 @@ Run KDE/Openbox on wslg!
 This requires:
 * Windows 10 Insider Preview build 21362+ (for wslg)
 * wslg installed AND working
-* KDE (for wslgbox-kde)
-* Openbox (for wslgbox)
+* KDE (for wslgbox)
+* Openbox (for wslgbox, if you choose to use openbox you MUST do 'echo 0 > $HOME/.config/wslgbox/de')
 * curl (for autoupdate, and troubleshooting)
 
 Installation:
