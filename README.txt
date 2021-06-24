@@ -19,5 +19,5 @@ Installation:
 1. Git clone this repository.
 2. CD into the directory.
 
-To run, do ./wslgbox (or ./wslgbox-kde) NOT as root as wayland will not work as root.
+To run, do ./wslgbox.
 KDE (or openbox) will start up.
