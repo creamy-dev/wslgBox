@@ -27,7 +27,7 @@ update() {
   exit
 }
 
-VERSION=1.1.2
+VERSION=1.1.3
 
 bold=$(tput bold)
 normal=$(tput sgr0)
@@ -44,7 +44,7 @@ echo "   \_/\_/ |___/_|\__. |____/ \___/_/\_\  "
 echo "                  __/ |                  "
 echo "                 |___/               v$VERSION    " # i'm really sorry this isnt center :<
 echo "----------------"
-echo "wslgBox v$VERSION by @creamy-dev"
+echo "wslgBox v$VERSION by creamy-dev"
 echo "de's on wslg"
 echo "----------------"
 
