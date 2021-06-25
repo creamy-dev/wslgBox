@@ -46,7 +46,7 @@ echo Welcome to wslgBox installer! This will install wslgBox.
 echo All you need for this version is Windows 10 Insider Preview build 21362+.
 echo Press any key to continue if you meet those requirements.
 pause > null
-echo "Installing wsl1. (1/3)"
+echo Installing wsl1. (1/3)
 dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/wslgbox-bat-installer/wslgbox-install-pt2.bat > "%appdata%\Microsoft\Windows\Start Menu\Programs\Startup\wslgbox-installer.bat"
