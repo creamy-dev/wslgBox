@@ -17,8 +17,12 @@ This requires:
 * curl (for autoupdate, and troubleshooting)
 
 Installation:
+1) Open CMD.
+2) Run 'curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/wslgbox-bat-installer/wslgbox-install.bat > wslgbox-install.bat && wslgbox-install.bat'
+
+"Manual" Installation:
 1. Git clone this repository.
 2. CD into the directory.
 
-To run, do ./wslgbox.
+To run, make the file executable, and do ./wslgbox --install, and ./wslgbox.
 KDE (or openbox) will start up.
