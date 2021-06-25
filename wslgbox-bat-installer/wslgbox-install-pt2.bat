@@ -61,8 +61,8 @@ wslconfig /setdefault Ubuntu-20.04
 wsl /bin/bash -c "$(cd ~ && curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/wslgbox --output wslgbox && chmod +x wslgbox)"
 wsl /bin/bash -c "cd ~ && ./wslgbox --install"
 wsl --shutdown
-echo "Done! Starting wslgBox, for the first time! To do this later, open cmd, type wsl, type cd ~, and then type ./wslgbox!"
-echo "Press any key to start..."
+echo Done! Starting wslgBox, for the first time! To do this later, open cmd, type wsl, type cd ~, and then type ./wslgbox!
+echo Press any key to start...
 pause > nul
 start wsl /bin/bash -c "cd ~ && ./wslgbox"
 del %0 && exit
