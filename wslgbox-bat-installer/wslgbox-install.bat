@@ -21,7 +21,4 @@ pause > null
 echo "Installing wsl1. (1/3)"
 dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
-echo "Done with (1/3)! This requires a reboot. Press any key when you are ready."
-pause
-shutdown /r /t 00
-exit
+echo "Done with (1/3)! This requires a reboot. Please reboot, for wsl to be installed."
