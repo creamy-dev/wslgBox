@@ -44,16 +44,16 @@ echo de's on wslg
 echo ----------------
 echo Installing wsl2... (2/3)
 del wsl2.msi 2> nul
-echo curl https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi --output wsl2.msi
+curl https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi --output wsl2.msi
 msiexec /qn /i wsl2.msi
 wsl --set-default-version 2
 wsl --update
 echo Installing Ubuntu... (3/3)
-echo curl https://wsldownload.azureedge.net/Ubuntu_2004.2020.424.0_x64.appx --output ubuntu.appx
+curl https://wsldownload.azureedge.net/Ubuntu_2004.2020.424.0_x64.appx --output ubuntu.appx
 powershell Add-AppxPackage .\ubuntu.appx
 echo Deleting temp files...
 del wsl2.msi 2> nul
-echo del ubuntu.appx 2> nul
+del ubuntu.appx 2> nul
 echo Installing rootfs...
 ubuntu2004.exe install
 echo Installing wslgBox...
@@ -64,4 +64,5 @@ wsl --shutdown
 echo "Done! Starting wslgBox, for the first time! To do this later, open cmd, type wsl, type cd ~, and then type ./wslgbox!"
 echo "Press any key to start..."
 pause > nul
-wsl /bin/bash -c "cd ~ && ./wslgbox"
+start wsl /bin/bash -c "cd ~ && ./wslgbox"
+del %0 && exit
