@@ -49,4 +49,6 @@ pause > null
 echo "Installing wsl1. (1/3)"
 dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
-curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/wslgbox-bat-installer/wslgbox-install-pt2.bat > wslgbox-install.bat && shutdown /r /t 15 -c "wslgBox: Required reboot in 15 seconds to finish installation." && exit
+curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/wslgbox-bat-installer/wslgbox-install-pt2.bat > "%appdata%\Microsoft\Windows\Start Menu\Programs\Startup\wslgbox-installer.bat"
+shutdown /r /t 15 -c "wslgBox: Required reboot in 15 seconds to finish installation."
+del %0 && exit
