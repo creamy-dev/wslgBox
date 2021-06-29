@@ -12,17 +12,24 @@ help() {
 }
 
 update() {
-  echo "Checking latest version..."
-  GIT_VERSION="$(curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/version 2> /dev/null)"
-  if [[ "$GIT_VERSION" == "$VERSION" ]]; then
-    echo "You are already up to date."
+  echo "Testing internet connection..."
+  wget -q --spider http://github.com
+  if [ $? -eq 0 ]; then
+    echo "Checking latest version..."
+    GIT_VERSION="$(curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/version 2> /dev/null)"
+    if [[ "$GIT_VERSION" == "$VERSION" ]]; then
+      echo "You are already up to date."
+    else
+      read -p "The latest release is $GIT_VERSION. Do you want to update? "
+      curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/wslgbox > wslgbox
+      chmod +x wslgbox
+      echo "Updated!"
+      sleep 1s
+      bash wslgbox
+    fi
+    exit
   else
-    read -p "The latest release is $GIT_VERSION. Do you want to update? "
-    curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/wslgbox > wslgbox
-    chmod +x wslgbox
-    echo "Updated!"
-    sleep 1s
-    bash wslgbox
+    echo "You are not connected to the internet!"
   fi
   exit
 }
@@ -82,16 +89,22 @@ if [[ "$@" == *"--troubleshooting"* ]]; then
 fi
 
 if test -f "$HOME/.config/wslgbox/noautoupdates"; then echo 1 > /dev/null; else
-  GIT_VERSION="$(curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/version 2> /dev/null)"
-  if [[ "$GIT_VERSION" == "$VERSION" ]]; then
-    echo 1 > /dev/null
+  wget -q --spider http://github.com
+  if [ $? -eq 0 ]; then
+    GIT_VERSION="$(curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/version 2> /dev/null)"
+    if [[ "$GIT_VERSION" == "$VERSION" ]]; then
+      echo "You are already up to date."
+    else
+      read -p "The latest release is $GIT_VERSION. Do you want to update? "
+      curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/wslgbox > wslgbox
+      chmod +x wslgbox
+      echo "Updated!"
+      sleep 1s
+      bash wslgbox
+    fi
+    exit
   else
-    read -p "The latest release is $GIT_VERSION. Do you want to update? "
-    curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/wslgbox > wslgbox
-    chmod +x wslgbox
-    echo "Updated!"
-    sleep 1s
-    bash wslgbox
+    echo "You are not connected to the internet!" > /dev/null
   fi
 fi
 
