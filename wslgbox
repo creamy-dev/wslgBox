@@ -8,6 +8,7 @@ help() {
   echo "--install, -i: installs kde for you"
   echo "--troubleshooting, -t: shows troubleshooting steps"
   echo "--update, -u: updates wslgbox"
+  echo "--installcommunity, -ic: installs community files (ALLOWS CODE EXECUTION)"
   exit
 }
 
@@ -21,6 +22,12 @@ update() {
       echo "You are already up to date."
     else
       read -p "The latest release is $GIT_VERSION. Do you want to update? "
+      if test -f "$HOME/.config/wslgbox/enabledcommsloading"; then
+        echo "Updating community files..."
+        curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/community_de_support/comfunc > $HOME/.config/wslgbox/comfunc
+        curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/community_de_support/comif > $HOME/.config/wslgbox/comif
+        curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/community_de_support/cominst > $HOME/.config/wslgbox/cominst
+      fi
       curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/wslgbox > wslgbox
       chmod +x wslgbox
       echo "Updated!"
@@ -32,6 +39,18 @@ update() {
     echo "You are not connected to the internet!"
   fi
   exit
+}
+
+enablecommunity() {
+  read -p "This could be dangerous, as it allows for potentially unwanted code execution. Press any key if you are sure. I AM NOT RESPONSIBLE FOR ANY DAMAGES. "
+  read -p "Are you positive? "
+  read -p "This is your last chance to cancel. Are you sure you want to do this? "
+  echo Waiting 5 seconds before continuing...
+  sleep 5s
+  echo Enabling...
+  echo 1 > $HOME/.config/wslgbox/enabledcommsloading
+  echo Enabled. Checking for updates...
+  update
 }
 
 VERSION=1.1.4
@@ -83,6 +102,14 @@ if [[ "$@" == *"-u"* ]]; then
   update
 fi
 
+if [[ "$@" == *"--installcommunity"* ]]; then
+  enablecommunity
+fi
+
+if [[ "$@" == *"-ic"* ]]; then
+  enablecommunity
+fi
+
 if [[ "$@" == *"--troubleshooting"* ]]; then
   curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/troubleshooting.txt
   exit
@@ -97,6 +124,12 @@ if test -f "$HOME/.config/wslgbox/noautoupdates"; then echo 1 > /dev/null; else
     else
       read -p "The latest release is $GIT_VERSION. Do you want to update? "
       curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/wslgbox > wslgbox
+      if test -f "$HOME/.config/wslgbox/enabledcommsloading"; then
+        echo "Updating community files..." > /dev/null
+        curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/community_de_support/comfunc > $HOME/.config/wslgbox/comfunc
+        curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/community_de_support/comif > $HOME/.config/wslgbox/comif
+        curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/community_de_support/cominst > $HOME/.config/wslgbox/cominst
+      fi
       chmod +x wslgbox
       echo "Updated!"
       sleep 1s
@@ -121,27 +154,33 @@ fi
 
 dashdashinstall() {
   NAME="$(awk -F= '$1=="NAME" { print $2 ;}' /etc/os-release)"
-  if [[ "$NAME" == '"Debian GNU/Linux"' ]]; then
-    echo "IMPORTANT:"
-    echo "We WILL need to wipe ~/.config,"
-    echo "And we WILL need to migrate to debian testing due to KDE gui bugs, in the debian stable version. (${bold}THIS WILL WIPE /etc/apt/sources.list${normal})"
-    echo "You should back up all your important files."
-    read -p "Press any key if you agree to these modifications to your computer, or CTRL+C to exit. "
-    echo "deb http://deb.debian.org/debian testing main" | sudo tee /etc/apt/sources.list 2> /dev/null
-    echo "deb http://deb.debian.org/debian testing-updates main" | sudo tee -a /etc/apt/sources.list 2> /dev/null
-    echo "deb http://security.debian.org/debian-security testing-security main" | sudo tee -a /etc/apt/sources.list 2> /dev/null
-    echo "deb http://ftp.debian.org/debian testing-backports main" | sudo tee -a /etc/apt/sources.list 2> /dev/null
-    sudo apt update
-    sudo apt upgrade -y
-    sudo apt autoremove -y
-    sudo apt install kde-plasma-desktop xwayland kwin-x11 dbus-x11 -y
-    echo "Done!"
-  elif [[ "$NAME" == '"Ubuntu"' ]]; then
-    sudo apt update 
-    sudo apt install kubuntu-desktop xwayland kwin-x11 dbus-x11 -y
-    echo "Done!"
-  else echo "Unsupported distrobution."; fi
-  exit
+  if [[ "$(cat $HOME/.config/wslgbox/de)" == 1 ]]; then
+    if [[ "$NAME" == '"Debian GNU/Linux"' ]]; then
+      echo "IMPORTANT:"
+      echo "We WILL need to wipe ~/.config,"
+      echo "And we WILL need to migrate to debian testing due to KDE gui bugs, in the debian stable version. (${bold}THIS WILL WIPE /etc/apt/sources.list${normal})"
+      echo "You should back up all your important files."
+      read -p "Press any key if you agree to these modifications to your computer, or CTRL+C to exit. "
+      echo "deb http://deb.debian.org/debian testing main" | sudo tee /etc/apt/sources.list 2> /dev/null
+      echo "deb http://deb.debian.org/debian testing-updates main" | sudo tee -a /etc/apt/sources.list 2> /dev/null
+      echo "deb http://security.debian.org/debian-security testing-security main" | sudo tee -a /etc/apt/sources.list 2> /dev/null
+      echo "deb http://ftp.debian.org/debian testing-backports main" | sudo tee -a /etc/apt/sources.list 2> /dev/null
+      sudo apt update
+      sudo apt upgrade -y
+      sudo apt autoremove -y
+      sudo apt install kde-plasma-desktop xwayland kwin-x11 dbus-x11 -y
+      echo "Done!"
+    elif [[ "$NAME" == '"Ubuntu"' ]]; then
+      sudo apt update
+      sudo apt install kubuntu-desktop xwayland kwin-x11 dbus-x11 -y
+      echo "Done!"
+    else echo "Unsupported distrobution."; fi
+    exit
+  fi
+
+  if test -f "$HOME/.config/wslgbox/enabledcommsloading"; then
+    source $HOME/.config/wslgbox/cominst
+  fi
 }
 
 prepare() {
@@ -166,10 +205,14 @@ start_openbox() {
 start_kde() {
   Xwayland &
   sleep 0.5s
-  startplasma-x11 &
+  GDK_BACKEND=x11 startplasma-x11 &
   sleep 0.5s
   kwin --replace
 }
+
+if test -f "$HOME/.config/wslgbox/enabledcommsloading"; then
+  source $HOME/.config/wslgbox/comfunc
+fi
 
 if [[ "$@" == *"--install"* ]]; then
   dashdashinstall
@@ -183,8 +226,17 @@ echo "Preparing..."
 prepare
 echo "Starting..."
 file_data="$(cat $HOME/.config/wslgbox/de)"
+
 if [ $file_data == 0 ]; then
   start_openbox
-elif [ $file_data == 1 ]; then
+  exit
+fi
+
+if [ $file_data == 1 ]; then
   start_kde
+  exit
+fi
+
+if test -f "$HOME/.config/wslgbox/enabledcommsloading"; then
+  source $HOME/.config/wslgbox/comif
 fi
