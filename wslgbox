@@ -119,9 +119,7 @@ if test -f "$HOME/.config/wslgbox/noautoupdates"; then echo 1 > /dev/null; else
   wget -q --spider http://github.com
   if [ $? -eq 0 ]; then
     GIT_VERSION="$(curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/version 2> /dev/null)"
-    if [[ "$GIT_VERSION" == "$VERSION" ]]; then
-      echo 1 > /dev/null
-    else
+    if [[ "$GIT_VERSION" != "$VERSION" ]]; then
       read -p "The latest release is $GIT_VERSION. Do you want to update? "
       curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/wslgbox > wslgbox
       if test -f "$HOME/.config/wslgbox/enabledcommsloading"; then
@@ -136,8 +134,6 @@ if test -f "$HOME/.config/wslgbox/noautoupdates"; then echo 1 > /dev/null; else
       bash wslgbox
       exit
     fi
-  else
-    echo "You are not connected to the internet!" > /dev/null
   fi
 fi
 
