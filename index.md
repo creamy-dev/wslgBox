@@ -9,7 +9,3 @@ I started this project to learn more shell scripting, and to easily load up desk
 Thankfully Windows has made that possible, with wslg. And it's great!  
 wsl2 is getting better than running Linux VMs, with some graphics acceleration (CUDA for NVidia) showing up.  
 It would have been even better with actual desktop environments / window managers, so I coded this!
-
-## How good is this?
-
-After starting the script, it feels like native Linux, so it is pretty good.
