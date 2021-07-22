@@ -18,11 +18,23 @@ This requires:
 
 Installation:
 1) Open CMD.
-2) Run 'curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/wslgbox-bat-installer/wslgbox-install.bat > wslgbox-install.bat && wslgbox-install.bat'
+2) Run 'curl https://raw.githubusercontent.com/wslgBox/wslgBox-installer/main/wslgbox-install.bat > wslgbox-install.bat && wslgbox-install.bat'
 
 "Manual" Installation:
-1. Git clone this repository.
-2. CD into the directory.
+1. Have Windows Insider build 21362+.
+2. Install WSL.
+3. Install Virtual Machine Platform.
+4. Reboot.
+5. Install WSL2.
+6. Run wsl --update as admin.
+7. Install Ubuntu for Windows 10.
+8. Set up UNIX username and password.
+9. Git clone this repository.
+10. CD into the directory.
+11. Make wslgbox executable (chmod +x wslgbox)
+12. Run ./wslgbox --install.
+13. Run ./wslgbox.
 
-To run, make the file executable, and do ./wslgbox --install, and ./wslgbox.
-KDE (or openbox) will start up.
+KDE will start up by default.
+
+To make KDE less laggy, open KDE settings, search for "compositor", and change Rendering backend to XRender, and Tearing protection to Never, then click Apply.
