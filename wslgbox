@@ -14,21 +14,21 @@ help() {
 
 update() {
   echo "Testing internet connection..."
-  wget -q --spider http://github.com
+  wget -q --spider https://github.com
   if [ $? -eq 0 ]; then
     echo "Checking latest version..."
-    GIT_VERSION="$(curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/version 2> /dev/null)"
+    GIT_VERSION="$(curl https://raw.githubusercontent.com/wslgBox/wslgBox-src/main/version 2> /dev/null)"
     if [[ "$GIT_VERSION" == "$VERSION" ]]; then
       echo "You are already up to date."
     else
       read -p "The latest release is $GIT_VERSION. Press any key to update, or ^C to cancel. "
       if test -f "$HOME/.config/wslgbox/enabledcommsloading"; then
         echo "Updating community files..."
-        curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/community_de_support/comfunc > $HOME/.config/wslgbox/comfunc
-        curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/community_de_support/comif > $HOME/.config/wslgbox/comif
-        curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/community_de_support/cominst > $HOME/.config/wslgbox/cominst
+        curl https://raw.githubusercontent.com/wslgBox/wslgBox-community/main/comfunc > $HOME/.config/wslgbox/comfunc
+        curl https://raw.githubusercontent.com/wslgBox/wslgBox-community/main/comif > $HOME/.config/wslgbox/comif
+        curl https://raw.githubusercontent.com/wslgBox/wslgBox-community/main/cominst > $HOME/.config/wslgbox/cominst
       fi
-      curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/wslgbox > wslgbox
+      curl https://raw.githubusercontent.com/wslgBox/wslgBox/main/wslgbox > wslgbox
       chmod +x wslgbox
       echo "Updated!"
       sleep 1s
@@ -42,9 +42,7 @@ update() {
 }
 
 enablecommunity() {
-  read -p "This could be dangerous, as it allows for potentially unwanted code execution. Press any key if you are sure. I AM NOT RESPONSIBLE FOR ANY DAMAGES. "
-  read -p "Are you positive? "
-  read -p "This is your last chance to cancel. Are you sure you want to do this? "
+  read -p "This could be dangerous, as it allows for unwanted code execution. Press any key if you're sure. "
   echo Waiting 5 seconds before continuing...
   sleep 5s
   echo Enabling...
@@ -69,7 +67,7 @@ echo " \ \ /\ / / __| |/ _. |  _ < / _ \ \/ /  "
 echo "  \ V  V /\__ \ | (_| | |_) | (_) >  <   "
 echo "   \_/\_/ |___/_|\__. |____/ \___/_/\_\  "
 echo "                  __/ |                  "
-echo "                 |___/               v$VERSION    " # i'm really sorry this isnt center :<
+echo "                 |___/               v$VERSION    " 
 echo "----------------"
 echo "wslgBox v$VERSION by creamy-dev"
 echo "de's on wslg"
@@ -118,15 +116,15 @@ fi
 if test -f "$HOME/.config/wslgbox/noautoupdates"; then echo 1 > /dev/null; else
   wget -q --spider http://github.com
   if [ $? -eq 0 ]; then
-    GIT_VERSION="$(curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/version 2> /dev/null)"
+    GIT_VERSION="$(curl https://raw.githubusercontent.com/wslgBox/wslgBox-src/main/version 2> /dev/null)"
     if [[ "$GIT_VERSION" != "$VERSION" ]]; then
       read -p "The latest release is $GIT_VERSION. Press any key to update, or ^C to cancel. "
       curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/wslgbox > wslgbox
       if test -f "$HOME/.config/wslgbox/enabledcommsloading"; then
         echo "Updating community files..." > /dev/null
-        curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/community_de_support/comfunc > $HOME/.config/wslgbox/comfunc
-        curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/community_de_support/comif > $HOME/.config/wslgbox/comif
-        curl https://raw.githubusercontent.com/creamy-dev/wslgBox/main/community_de_support/cominst > $HOME/.config/wslgbox/cominst
+        curl https://raw.githubusercontent.com/wslgBox/wslgBox-community/main/comfunc > $HOME/.config/wslgbox/comfunc
+        curl https://raw.githubusercontent.com/wslgBox/wslgBox-community/main/comif > $HOME/.config/wslgbox/comif
+        curl https://raw.githubusercontent.com/wslgBox/wslgBox-community/main/cominst > $HOME/.config/wslgbox/cominst
       fi
       chmod +x wslgbox
       echo "Updated!"
@@ -155,7 +153,7 @@ dashdashinstall() {
       echo "IMPORTANT:"
       echo "We WILL need to wipe ~/.config,"
       echo "And we WILL need to migrate to debian testing due to KDE gui bugs, in the debian stable version. (${bold}THIS WILL WIPE /etc/apt/sources.list${normal})"
-      echo "You should back up all your important files."
+      echo "You should back up all your important files, and repos."
       read -p "Press any key if you agree to these modifications to your computer, or CTRL+C to exit. "
       echo "deb http://deb.debian.org/debian testing main" | sudo tee /etc/apt/sources.list 2> /dev/null
       echo "deb http://deb.debian.org/debian testing-updates main" | sudo tee -a /etc/apt/sources.list 2> /dev/null
