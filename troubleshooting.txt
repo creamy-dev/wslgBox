@@ -3,7 +3,7 @@ wslgBox - Troubleshooting
 
 Can't run the file, because you don't have permissions?
 
-Do 'chmod ug=rx wslgbox' and replace wslgbox with whatever version you're using. 
+Do 'chmod +rwx wslgbox' or 'chmod ugo+rwx wslgbox'. 
 
 Xwayland is not installed!
 
